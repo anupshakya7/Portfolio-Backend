@@ -20,24 +20,24 @@
         </ul>
     </div>
     <div class="footer-social-icons">
-        @if(!empty(setting('site.instagram')))
+        @if (!empty(setting('site.instagram')))
         <div class="icon">
-            <a href="{{setting('site.instagram')}}" target="__blank"><i class="uil uil-instagram"></i></a>
+            <a href="{{ setting('site.instagram') }}" target="__blank"><i class="uil uil-instagram"></i></a>
         </div>
         @endif
-        @if(!empty(setting('site.linkedin')))
+        @if (!empty(setting('site.linkedin')))
         <div class="icon">
-            <a href="{{setting('site.linkedin')}}" target="__blank"><i class="uil uil-linkedin"></i></a>
+            <a href="{{ setting('site.linkedin') }}" target="__blank"><i class="uil uil-linkedin"></i></a>
         </div>
         @endif
-        @if(!empty(setting('site.github')))
+        @if (!empty(setting('site.github')))
         <div class="icon">
-            <a href="{{setting('site.github')}}" target="__blank"><i class="uil uil-github"></i></a>
+            <a href="{{ setting('site.github') }}" target="__blank"><i class="uil uil-github"></i></a>
         </div>
         @endif
-        @if(!empty(setting('site.facebook')))
+        @if (!empty(setting('site.facebook')))
         <div class="icon">
-            <a href="{{setting('site.facebook')}}" target="__blank"><i class="uil uil-facebook"></i></a>
+            <a href="{{ setting('site.facebook') }}" target="__blank"><i class="uil uil-facebook"></i></a>
         </div>
         @endif
     </div>
@@ -48,6 +48,11 @@
 </footer>
 <!-- Footer Section -->
 </div>
+
+<!-- Bootstrap CDN JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js">
+</script>
+<!-- Bootstrap CDN JS -->
 
 <!-- Scroll Reveal Js Link -->
 <script src="https://unpkg.com/scrollreveal"></script>
@@ -66,27 +71,49 @@
 <!-- Toastr -->
 
 <!-- Custom Script -->
-<script src="{{asset('js/script.js')}}"></script>
+<script src="{{ asset('js/script.js') }}"></script>
 
 <script>
     // Success Message
-    @if(session('success'))
-        toastr.success({{'session('success')'}})
+    @if (session('success'))
+        toastr.success("{{ session('success') }}", 'Success', {
+            timeOut: 5000
+        });
     @endif
 
     // Error Message
-    @if(session('error'))
-        toastr.error({{'session('error')'}})
+    @if (session('error'))
+        toastr.error("{{ session('error') }}", 'Error', {
+            timeOut: 5000
+        });
+    @endif
+
+    //Validation Error
+    @if($errors->any())
+        @foreach ($errors->all() as $error)
+            toastr.error("{!! $error !!}", 'Error', {
+                timeOut: 5000
+            });
+        @endforeach
+    @endif
+    
+    //Scroll To
+    @if(session('scrollTo'))
+        var sectionId = "{{session('scrollTo')}}";
+
+        $('html,body').animate({
+            scrollTop: $('#'+sectionId).offset().top
+        },1000); 
     @endif
 
     // Info Message
-    @if(session('info'))
-        toastr.info({{'session('info')'}})
+    @if (session('info'))
+        toastr.info({{ session('info') }})
     @endif
 
     // Warning Message
-    @if(session('warning'))
-        toastr.warning({{'session('warning')'}})
+    @if (session('warning'))
+        toastr.warning({{ session('warning') }})
     @endif
 </script>
 <!-- Custom Script -->

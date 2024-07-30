@@ -25,7 +25,11 @@
         </ul>
     </div>
     <div class="nav-button">
-        <button class="btn">Download CV <i class="uil uil-file-alt"></i></button>
+        @php
+        $cv = json_decode(setting('site.cv'))[0]->download_link;
+        @endphp
+        <a href="{{asset('storage/'.$cv)}}" class="btn" download="Portfolio">Download CV <i
+                class="uil uil-file-alt"></i></a>
     </div>
     <div class="nav-menu-btn">
         <i class="uil uil-bars" onclick="myMenuFunction()"></i>

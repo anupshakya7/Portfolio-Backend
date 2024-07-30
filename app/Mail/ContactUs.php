@@ -30,7 +30,7 @@ class ContactUs extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name')->with([
+        return $this->view('emails.contact-us')->with([
             'user' => $this->user
         ]);
     }

@@ -1,5 +1,8 @@
 @extends('layout.main')
 @section('content')
+@php
+$cv = json_decode(setting('site.cv'))[0]->download_link;
+@endphp
 <!-- Body Section -->
 <main class="wrapper">
     <!-- Featured Box -->
@@ -17,7 +20,8 @@
             </div>
             <div class="featured-text-btn">
                 <button class="btn blue-btn">Hire Me</button>
-                <button class="btn ">Download CV <i class="uil uil-file-alt"></i></button>
+                <a href="{{asset('storage/'.$cv)}}" class="btn " download="Portfolio">Download CV <i
+                        class="uil uil-file-alt"></i></a>
             </div>
             <div class="social_icons">
                 @if(!empty(setting('site.instagram')))
@@ -68,46 +72,24 @@
                         libraries, which allows me to implement interactive features. Additionally, I have
                         experience working with content management systems (CMS) Wordpress.</p>
                     <div class="about-btn">
-                        <button class="btn">Download CV <i class="uil uil-file-alt"></i></button>
+                        <a href="{{asset('storage/'.$cv)}}" class="btn" download="Portfolio">Download CV
+                            <i class="uil uil-file-alt"></i></a>
                     </div>
                 </div>
             </div>
             <div class="col">
+                @foreach($skilltypes as $skilltype)
                 <div class="skills-box">
                     <div class="skills-header">
-                        <h3>Frontend</h3>
+                        <h3>{{$skilltype->name}}</h3>
                     </div>
                     <div class="skills-list">
-                        <span>HTML</span>
-                        <span>CSS</span>
-                        <span>Bootstrap</span>
-                        <span>Javascript</span>
-                        <span>Vue</span>
-                        <span>React</span>
-                        <span>Angular</span>
+                        @foreach($skilltype->skills as $skill)
+                        <span>{{$skill->name}}</span>
+                        @endforeach
                     </div>
                 </div>
-                <div class="skills-box">
-                    <div class="skills-header">
-                        <h3>Backend</h3>
-                    </div>
-                    <div class="skills-list">
-                        <span>PHP</span>
-                        <span>JAVA</span>
-                        <span>Python</span>
-                        <span>C++</span>
-                    </div>
-                </div>
-                <div class="skills-box">
-                    <div class="skills-header">
-                        <h3>Database</h3>
-                    </div>
-                    <div class="skills-list">
-                        <span>MySQL</span>
-                        <span>MongoDB</span>
-                        <span>PostgreSQL</span>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -121,17 +103,17 @@
             <div class="project-box">
                 <i class="uil uil-briefcase-alt"></i>
                 <h3>Completed</h3>
-                <label>15+ Finished Projects</label>
+                <label>{{setting('site.complete_projects')}}+ Finished Projects</label>
             </div>
             <div class="project-box">
                 <i class="uil uil-users-alt"></i>
                 <h3>Clients</h3>
-                <label>25+ Happy Clients</label>
+                <label>{{setting('site.happy_clients')}}+ Happy Clients</label>
             </div>
             <div class="project-box">
                 <i class="uil uil-award"></i>
                 <h3>Experience</h3>
-                <label>7+ Years in the field</label>
+                <label>{{setting('site.experience_years')}}+ Years in the field</label>
             </div>
         </div>
     </section>
@@ -146,23 +128,41 @@
             <div class="col">
                 <div class="contact-info">
                     <h2>Find Me <i class="uil uil-corner-right-down"></i></h2>
-                    <p><i class="uil uil-envelope"></i> Email:anupshk39@gmail.com</p>
-                    <p><i class="uil uil-phone"></i> Tel:+250 708 770 000</p>
+                    @if(!empty(setting('site.email')))
+                    <p><i class="uil uil-envelope"></i> Email: {{setting('site.email')}}</p>
+                    @endif
+                    @if(!empty(setting('site.phone')))
+                    <p><i class="uil uil-phone"></i> Tel: {{setting('site.phone')}}</p>
+                    @endif
                 </div>
             </div>
             <div class="col">
-                <div class="form-control">
-                    <div class="form-inputs">
-                        <input type="text" class="input-field" placeholder="Name">
-                        <input type="email" class="input-field" placeholder="Email">
+                <form action="{{route('contact.name')}}" method="POST">
+                    @csrf
+                    <div class="form-control">
+                        <div class="form-inputs">
+                            <input type="text" name="name" value="{{old('name')}}" class="input-field"
+                                placeholder="Name">
+                            {{-- @if($errors->has('name'))
+                            <p class="text-danger">{{$errors->first('name')}}</p>
+                            @endif --}}
+                            <input type="email" name="email" value="{{old('email')}}" class="input-field"
+                                placeholder="Email">
+                            {{-- @if($errors->has('email'))
+                            <p class="text-danger">{{$errors->first('email')}}</p>
+                            @endif --}}
+                        </div>
+                        <div class="text-area">
+                            <textarea name="message" value="{{old('message')}}" placeholder="Message"></textarea>
+                            {{-- @if($errors->has('message'))
+                            <p class="text-danger">{{$errors->first('message')}}</p>
+                            @endif --}}
+                        </div>
+                        <div class="form-button">
+                            <button type="submit" class="btn">Send <i class="uil uil-message"></i></button>
+                        </div>
                     </div>
-                    <div class="text-area">
-                        <textarea placeholder="Message"></textarea>
-                    </div>
-                    <div class="form-button">
-                        <button class="btn">Send <i class="uil uil-message"></i></button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </section>

@@ -58,6 +58,8 @@ html{
     border-radius: 10px;
     cursor: pointer;
     transition: .4s;
+    text-decoration: none;
+    color: #000;
 }
 
 .btn>i{
@@ -360,16 +362,17 @@ h3{
     color: #777;
 }
 
-.about-btn button{
+.about-btn a{
     position: absolute;
     right: 20px;
     bottom: 20px;
     background: var(--first-color);
     color: var(--color-white);
     border-radius: 30px;
+    text-decoration: none;
 }
 
-.about-btn button:hover{
+.about-btn a:hover{
     background: var(--first-color-hover);
 }
 
